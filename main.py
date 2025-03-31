@@ -8,6 +8,8 @@ from urltotext import ContentFinder
 import os
 from dotenv import load_dotenv
 import random
+from waitress import serve
+from main import app
 
 # Load environment variables
 load_dotenv()
