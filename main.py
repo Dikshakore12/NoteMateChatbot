@@ -7,8 +7,7 @@ from urllib.parse import urlparse
 from urltotext import ContentFinder
 import os
 from dotenv import load_dotenv
-import random
-from waitress import server
+from waitress import serve  # ✅ correct waitress import
 
 # Load environment variables
 load_dotenv()
@@ -76,11 +75,11 @@ def get_notes():
         small_talk_type = is_small_talk(topic)
         if small_talk_type:
             responses = {
-                "hi": "\ud83d\udc4b Hello! How can I help you today?",
-                "hello": "Hello there! \ud83d\ude0a What subject or topic would you like help with?",
+                "hi": "👋 Hello! How can I help you today?",
+                "hello": "Hello there! 😊 What subject or topic would you like help with?",
                 "hey": "Hey! I'm here to assist you. Ask me anything!",
                 "how are you": "I'm doing great! Thanks for asking. How can I assist you today?",
-                "what's up": "Not much, just helping awesome people like you! \ud83d\ude0a",
+                "what's up": "Not much, just helping awesome people like you! 😊",
                 "what can you do": "I can help generate study notes, explain topics, and answer your questions in Hindi or English.",
                 "who are you": "I'm <b>NoteMate</b>, your personal AI assistant for learning and teaching!",
                 "your name": "My name is <b>NoteMate</b>. I’m here to assist you with notes and explanations!",
@@ -189,5 +188,7 @@ def extract_url():
             "error": str(e)
         })
 
+# === Render / Production Entry Point ===
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 10000))  # Render provides this port
+    serve(app, host='0.0.0.0', port=port)
